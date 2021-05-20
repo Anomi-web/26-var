@@ -1,0 +1,116 @@
+using System;
+using System.Text.RegularExpressions;
+
+namespace _26_2
+{
+    class Program
+    {
+        ///Описать функцию изм(x, y, z), которая в том из векторов (одномерных массивов) x, y и z,
+        ///где больше всего отрицательных элементов (считать, что такой вектор один),
+        ///все его положительные элементы заменяет: 
+        ///на их кубы, если это вектор x или вектор z, 
+        ///на их обратные величины, если это вектор y.
+        static double[] Изм(double[] x, double [] y, double[] z)
+        {
+            int max = x.Length, i, minus;
+            int count_x = 0, count_y = 0, count_z = 0;
+            string choice;
+            
+            //подсчёт количества отрицательных элементов в каждом массиве
+            for (i = 0; i < max; i++)
+            {
+                if ((x[i] < 0) && (i < x.Length))
+                    count_x++;
+                if ((y[i] < 0) && (i < y.Length))
+                    count_y++;
+                if ((z[i] < 0) && (i < z.Length))
+                    count_z++;
+            }
+
+            //определение, в каком массиве больше всего отрицательных элементов
+            minus = count_x;
+            choice = "x";
+            if (count_y > minus)
+            {
+                minus = count_y;
+                choice = "y";
+            }
+            if (count_z > minus)
+            {
+                minus = count_z;
+                choice = "z";
+            }
+
+            double[] massive = new double[max];
+            ///определение нужного массива для вывода
+            if (choice == "x")
+            {
+                for (i = 0; i < max; i++)
+                {
+                    if (x[i] < 0)
+                    {
+                        x[i] *= x[i] * x[i];
+                    }
+                }
+                massive = x;
+            }
+            else if (choice == "z")
+            {
+                for (i = 0; i < max; i++)
+                {
+                    if (z[i] < 0)
+                    {
+                        z[i] *= z[i] * z[i];
+                    }
+                }
+                massive = z;
+            }
+            else if (choice == "y")
+            {
+                for (i = 0; i < max; i++)
+                {
+                    if (y[i] < 0)
+                    {
+                        y[i] = 1 / y[i];
+                    }
+                }
+                massive = y;
+            }
+
+            return massive;
+        }
+        static void Main(string[] args)
+        {
+            string pr;
+            int i = 0;
+            double[] x = new double[0];
+            double[] y = new double[0];
+            double[] z = new double[0];
+            do
+            {
+                Console.WriteLine("Введите через пробел три координаты элемента(x, y, z):");
+                string line = Console.ReadLine();
+                
+                var result = new Regex("-?[0-9]+").Matches(line);
+                Array.Resize(ref x, x.Length + 1);
+                x[i] = Convert.ToDouble(result[0].Value);
+                Array.Resize(ref y, y.Length + 1);
+                y[i] = Convert.ToDouble(result[1].Value);
+                Array.Resize(ref z, z.Length + 1);
+                z[i] = Convert.ToDouble(result[2].Value);
+                i++;
+
+                Console.WriteLine("Для ввода нового числа нажмите Enter. Для выхода из ввода данных введите 1");
+                pr = Console.ReadLine();
+            }
+            while (pr != "1");
+
+            double[] massive = new double[x.Length];
+            massive = Изм(x, y, z);
+            
+            Console.WriteLine("Итоговый массив: ");
+            foreach (double a in massive)
+                Console.Write(a + " ");
+        }
+    }
+}
