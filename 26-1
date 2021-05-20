@@ -7,13 +7,35 @@ namespace _26_1
         static void Main(string[] args)
         {
             //По коэффициентам многочлена x³+ax²+bx+c найти корни уравнения x³+ax²+bx+c=0.
-            //Полезные сайты:
-            //https://planetcalc.ru/1122/
-            //http://www2.trinity.unimelb.edu.au/~rbroekst/MathX/Cubic%20Formula.pdf
-            
-            
+
+            ///Полезные сайты:
+            ///Калькулятор для проверки+неоходимая теория по Виета
+            ///https://planetcalc.ru/1122/
+            ///Учебник для проверки значений
+            ///http://www2.trinity.unimelb.edu.au/~rbroekst/MathX/Cubic%20Formula.pdf
+            ///Обратные тригонометрические функции
+            ///https://planetcalc.ru/1118/
+            ///Проверка ссылки на вирусы
+            ///https://vms.drweb.ru/online
+
+
             //запись данных
-            double a, b, c, x1, x2, x3, degree = 1 / 3.0, pi = Math.PI, prom, Q, R, S, fi, Arch, xx, xx_arch, xx_arsh, Arsh; ;
+            ///Обозначения:
+            ///a, b, c - вводимые данные функции x³+ax²+bx+c
+            ///x1, x2, x3 - возможные корни уравнения x³+ax²+bx+c=0
+            ///prom - промежуточная переменная для временных значений
+            ///Q - https://cutt.ly/6b9YKGc
+            ///R - https://cutt.ly/xb9YGO6
+            ///S - https://cutt.ly/6b9YSSn
+            ///fi - угол функций
+            ///Arch - ареакосинус
+            ///Arsh - ареасинус
+            ///t - неизвестная в гиперболических переменных
+            ///t_giper - https://cutt.ly/Sb9YPac (пример), неизвестная в замене гиперболических переменных
+            ///degree - значение для 1/3, вспомогательная константа
+            ///pi - значение PI, вспомогательная константа
+            double a, b, c, x1, x2, x3, prom, Q, R, S, fi, Arch, Arsh, t, t_giper;
+            const double degree = 1 / 3.0, pi = Math.PI;
             Console.WriteLine("Введите коэффиценты кубического уравнения x^3+ax^2+bx+c:");
             Console.Write("a = ");
             a = Convert.ToDouble(Console.ReadLine());
@@ -28,12 +50,18 @@ namespace _26_1
 
             if (S > 0)
             {
+                ///fi = https://cutt.ly/tb9YZrt
                 prom = R / Math.Sqrt(Q * Q * Q);
                 fi = degree * Math.Acos(prom);
+
+                ///x1 = https://cutt.ly/mb9YBR7
+                ///x2 = https://cutt.ly/1b9YNPd
+                ///x3 = https://cutt.ly/Zb9YM7K
                 prom = -2 * Math.Sqrt(Q);
                 x1 = (prom * Math.Cos(fi)) - (a / 3);
                 x2 = (prom * Math.Cos(fi + (2 * pi / 3))) - (a / 3);
                 x3 = (prom * Math.Cos(fi - (2 * pi / 3))) - (a / 3);
+
                 Console.WriteLine($"x1 = {x1}\n" +
                                   $"x2 = {x2}\n" +
                                   $"x3 = {x3}\n" +
@@ -44,42 +72,59 @@ namespace _26_1
             {
                 if (Q > 0)
                 {
-                    prom = Math.Sqrt(Q * Q * Q);
-                    xx = Math.Abs(R) / prom;
-                    Console.WriteLine($"xx = {xx}");
-                    xx_arch = xx + Math.Sqrt(xx * xx - 1);
-                    Arch = Math.Log(xx_arch);
-                    fi = degree * Arch;
+                    ///fi = https://cutt.ly/Db9Y8F4 
+                    ///Arch = https://cutt.ly/xb9UpBc
+                    prom = Math.Sqrt(Q * Q * Q); 
+                    t = Math.Abs(R) / prom; /*Arch(t)*/
 
+                    t_giper = t + Math.Sqrt((t * t) - 1); 
+                    Arch = Math.Log(t_giper); /*Arch (t) = ln(t_giper)*/
+
+                    fi = degree * Arch; /*fi = 1/3 * Arch*/
+
+                    ///x1 = https://cutt.ly/Eb9IOJk
                     x1 = -2 * Math.Sign(R) * Math.Sqrt(Q) * Math.Cosh(fi) - a / 3;
+
                     Console.WriteLine($"x1 = {x1}\n" +
                                       $"S = {S}\n" +
                                       $"Q = {Q}");
                 }
                 else if (Q < 0)
                 {
+                    ///fi = https://cutt.ly/Pb9I09x
+                    ///Arsh = https://cutt.ly/Ub9ZW23
                     prom = Math.Abs(Q);
-                    xx = Math.Abs(R) / Math.Sqrt(prom * prom * prom);
-                    xx_arsh = xx + Math.Sqrt(xx * xx + 1);
-                    Arsh = Math.Log(xx_arsh);
-                    fi = degree * Arsh;
+                    t = Math.Abs(R) / Math.Sqrt(prom * prom * prom); /*Arsh(t)*/
+
+                    t_giper = t + Math.Sqrt(t * t + 1); 
+                    Arsh = Math.Log(t_giper); /*Arsh (t) = ln(t_giper)*/
+
+                    fi = degree * Arsh; /*fi = 1/3 * Arsh*/
+
+                    ///x1 = https://cutt.ly/gb9ZZUZ
                     x1 = -2 * Math.Sign(R) * Math.Sqrt(Math.Abs(Q)) * Math.Sinh(fi) - a / 3;
+
                     Console.WriteLine($"x1 = {x1}\n" +
                                       $"S = {S}\n" +
                                       $"Q = {Q}");
                 }
                 else
                 {
+                    //x1 = https://cutt.ly/Pb9Z0sy
                     x1 = -Math.Pow(c - (a * a * a / 27), degree) - (a / 3);
-                    Console.WriteLine($"x1 = {x1}" +
+
+                    Console.WriteLine($"x1 = {x1}\n" +
                                       $"S = { S}\n" +
                                       $"Q = {Q}");
                 }
             }
             else
             {
+                ///x1 = https://cutt.ly/eb9Z79G
+                ///x2 = https://cutt.ly/sb9XqE5
                 x1 = -2 * Math.Sign(R) * Math.Sqrt(Q) - a / 3;
                 x2 = Math.Sign(R) * Math.Sqrt(Q) - a / 3;
+
                 Console.WriteLine($"x1 = {x1}\n" +
                                   $"x2 = {x2}\n" +
                                   $"S = { S}\n" +
