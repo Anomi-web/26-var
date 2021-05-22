@@ -88,15 +88,26 @@ namespace _26_2
             double[] z = new double[0];
             do
             {
+                //ввод очередного элемента
                 Console.WriteLine("Введите через пробел три координаты элемента(x, y, z):");
                 string line = Console.ReadLine();
                 
+                ///проверка условия
+                ///-? - Если есть или нет минус
+                ///[0-9] - соответствует любая цифра от 1 до 9
+                ///+ - может быть один или несколько элементов
+                ///result - это новый массив типа regex с элементами типа Match
+                ///В элементы записывается каждое число в line, разделённое пробелом, буквой или символом
                 var result = new Regex("-?[0-9]+").Matches(line);
+                ///Resize пересоздаёт массив 
                 Array.Resize(ref x, x.Length + 1);
+                //запись нулевого элемента result в i-тый элемент x
                 x[i] = Convert.ToDouble(result[0].Value);
                 Array.Resize(ref y, y.Length + 1);
+                //запись нулевого элемента result в i-тый элемент y
                 y[i] = Convert.ToDouble(result[1].Value);
-                Array.Resize(ref z, z.Length + 1);
+                Array.Resize(ref z, z.Length + 1);                
+                //запись нулевого элемента result в i-тый элемент z
                 z[i] = Convert.ToDouble(result[2].Value);
                 i++;
 
@@ -106,8 +117,10 @@ namespace _26_2
             while (pr != "1");
 
             double[] massive = new double[x.Length];
+            //вызов метода Изм в массив massive
             massive = Изм(x, y, z);
             
+            //вывод massive
             Console.WriteLine("Итоговый массив: ");
             foreach (double a in massive)
                 Console.Write(a + " ");
